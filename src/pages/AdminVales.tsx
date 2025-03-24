@@ -104,7 +104,7 @@ const AdminVales = () => {
 
         <button
           onClick={crearVale}
-          className="bg-[#31715C] text-white px-4 py-2 rounded-md hover:bg-[#285f4d]"
+          className="bg-[#31715C] text-white px-4 py-2 rounded-md hover:bg-[#285f4d] cursor-pointer"
         >
           Crear vale
         </button>

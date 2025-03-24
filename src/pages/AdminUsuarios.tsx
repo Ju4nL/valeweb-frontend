@@ -117,7 +117,7 @@ const AdminUsuarios = () => {
         <div className="mt-4">
           <button
             onClick={crearUsuario}
-            className="bg-[#31715C] text-white px-4 py-2 rounded-md hover:bg-[#285f4d]"
+            className="bg-[#31715C] text-white px-4 py-2 rounded-md hover:bg-[#285f4d] cursor-pointer"
           >
             Crear usuario
           </button>
@@ -146,14 +146,14 @@ const AdminUsuarios = () => {
                   {user.role !== "scrum" && (
                     <button
                       onClick={() => makeScrum(user.id)}
-                      className="bg-[#31715C] text-white px-3 py-1 rounded-md text-xs hover:bg-[#285f4d]"
+                      className="bg-[#31715C] text-white px-3 py-1 rounded-md text-xs hover:bg-[#285f4d] cursor-pointer"
                     >
                       Asignar Scrum
                     </button>
                   )}
                   <button
                     onClick={() => deleteUser(user.id)}
-                    className="bg-red-500 text-white px-3 py-1 rounded-md text-xs hover:bg-red-600"
+                    className="bg-red-500 text-white px-3 py-1 rounded-md text-xs hover:bg-red-600 cursor-pointer"
                   >
                     Eliminar
                   </button>
