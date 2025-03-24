@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
-  const { token, role, setToken } = useAuth();
+  const { role, setToken } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
