@@ -53,8 +53,21 @@ const Dashboard = () => {
     }
   };
 
+  const [rompiendo, setRompiendo] = useState<number | null>(null);
+
+  const handleCanjearConAnimacion = (canjeoId: number) => {
+    setRompiendo(canjeoId);
+
+    setTimeout(async () => {
+      await handleCanjear(canjeoId);
+      setRompiendo(null);
+    }, 700);
+  };
+
+
+
   return (
-    <div className="p-6 max-w-5xl mx-auto">
+    <div className="p-6 max-w-6xl mx-auto">
       <h1 className="text-2xl font-bold mb-6">Mis Vales Asignados</h1>
       {vales.length === 0 ? (
         <p>No tienes vales disponibles.</p>
@@ -63,44 +76,67 @@ const Dashboard = () => {
           {vales.map((vale) => (
             <div
               key={vale.canjeo_id}
-              className="bg-[#B9D8C2] rounded-lg shadow-md flex overflow-hidden"
+              className=" flex mx-2"
             >
               {/* Izquierda */}
-              <div className="p-4 flex-1">
-                <h2 className="text-sm font-medium text-gray-700 mb-1">🎖️ Reconocimiento</h2>
-                <h1 className="text-xl font-bold text-gray-900 mb-2">{vale.description}</h1>
-                <p className="text-sm mb-1">
+              <div className="relative p-4 pl-10 flex-1  overflow-hidden bg-[#8BC1AF] ">
+                <div className="absolute top-0 right-0 h-full w-2 border-r-2 border-green-900 border-dashed z-0"></div>
+
+                {/* Esquinas recortadas */}
+                <div className="corner top-left"></div>
+                <div className="corner top-right"></div>
+                <div className="corner bottom-left"></div>
+                <div className="corner bottom-right"></div>
+
+                {/* Contenido */}
+                <h2 className="text-2xl font-extrabold mb-1">Reconocimiento</h2>
+                <p>🎖️ </p>
+                <h1 className="text-4xl font-extrabold text-amber-100 mb-2">{vale.description}</h1>
+                <p className="text-sm font-light mb-1">
                   Sólo se puede usar una vez, a voluntad de <strong>{vale.to_user_name}</strong>
                 </p>
-                <p className="text-sm text-gray-700 font-medium mb-2">
+                <p className="text-sm font-semibold mb-2">
                   Gestión del cambio y uso de la información
                 </p>
                 <p className="text-xs italic text-gray-600">
-                  Válido hasta: {new Date(vale.expires_at).toLocaleDateString()}
+                  * Válido hasta: {new Date(vale.expires_at).toLocaleDateString()}
                 </p>
+              </div>
 
+
+              {/* Derecha - imagen */}
+              <div
+                className={`bg-[#8BC1AF] w-40 flex flex-col items-center justify-center p-2 relative overflow-hidden transition-transform duration-700 origin-bottom-right ${vale.accepted === false || rompiendo === vale.canjeo_id ? "rotate-[5deg]" : ""
+                  }`}
+              >
+
+
+                {/* Esquinas recortadas */}
+                <div className="corner top-left"></div>
+                <div className="corner top-right"></div>
+                <div className="corner bottom-left"></div>
+                <div className="corner bottom-right"></div>
+
+
+                <img src={ValeImg} alt="Vale ilustración" className="w-full object-contain" />
                 <div className="mt-4">
                   {vale.accepted === false ? (
                     <button
                       disabled
-                      className="bg-yellow-400 text-white px-4 py-1 rounded cursor-not-allowed"
+                      className="bg-amber-100 text-green-950 text-sm px-4 py-1 rounded cursor-not-allowed"
                     >
-                      Pendiente de aceptación...
+                      Pendiente ...
                     </button>
                   ) : (
                     <button
-                      onClick={() => handleCanjear(vale.canjeo_id)}
-                      className="bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700"
+                      onClick={() => handleCanjearConAnimacion(vale.canjeo_id)}
+                      className="bg-[#287259] text-white px-4 py-1 text-sm rounded hover:bg-[#388E71] cursor-pointer"
                     >
                       Canjear
                     </button>
+
                   )}
                 </div>
-              </div>
-
-              {/* Derecha - imagen */}
-              <div className="w-40 flex items-center justify-center bg-white p-2">
-                <img src={ValeImg} alt="Vale ilustración" className="w-full object-contain" />
               </div>
             </div>
           ))}

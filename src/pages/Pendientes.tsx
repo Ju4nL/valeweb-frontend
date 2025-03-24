@@ -13,6 +13,7 @@ interface ValePendiente {
 const Pendientes = () => {
   const { token } = useAuth();
   const [vales, setVales] = useState<ValePendiente[]>([]);
+  const [rompiendo, setRompiendo] = useState<number | null>(null);
 
   const fetchPendientes = async () => {
     try {
@@ -39,6 +40,15 @@ const Pendientes = () => {
     }
   };
 
+  const handleAceptarConAnimacion = (id: number) => {
+    setRompiendo(id);
+
+    setTimeout(async () => {
+      await aceptarVale(id);
+      setRompiendo(null);
+    }, 700);
+  };
+
   useEffect(() => {
     fetchPendientes();
   }, []);
@@ -51,29 +61,44 @@ const Pendientes = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {vales.map((vale) => (
-            <div
-              key={vale.id}
-              className="bg-[#FFEBC1] rounded-lg shadow-md flex overflow-hidden"
-            >
+            <div key={vale.id} className="flex">
               {/* Izquierda */}
-              <div className="p-4 flex-1">
-                <h2 className="text-sm font-medium text-gray-700 mb-1">🎁 Vale recibido</h2>
-                <h1 className="text-xl font-bold text-gray-900 mb-2">{vale.description}</h1>
+              <div className="relative p-4 pl-10 flex-1 overflow-hidden bg-[#FFEBC1]">
+                <div className="absolute top-0 right-0 h-full w-2 border-r-2 border-green-900 border-dashed z-0"></div>
+
+                {/* Esquinas recortadas */}
+                <div className="corner top-left"></div>
+                <div className="corner top-right"></div>
+                <div className="corner bottom-left"></div>
+                <div className="corner bottom-right"></div>
+
+                {/* Contenido */}
+                <h2 className="text-xl font-extrabold mb-1">Vale recibido</h2>
+                <h1 className="text-4xl font-extrabold text-[#31715C] mb-2">{vale.description}</h1>
                 <p className="text-sm mb-2">
                   Enviado por: <strong>{vale.from_user}</strong>
                 </p>
+              </div>
 
+              {/* Derecha - imagen rotada con animación */}
+              <div
+                className={`w-40 flex flex-col items-center justify-center p-2 relative ml-4 bg-[#FFEBC1] z-10 transition-all duration-700 ease-in-out transform origin-top-right ${
+                  rompiendo === vale.id ? "rotate-12 scale-0 opacity-0" : "rotate-[5deg]"
+                }`}
+              >
+                {/* Esquinas recortadas */}
+                <div className="corner top-left"></div>
+                <div className="corner top-right"></div>
+                <div className="corner bottom-left"></div>
+                <div className="corner bottom-right"></div>
+
+                <img src={ValeImg} alt="Vale" className="w-full object-contain" />
                 <button
-                  onClick={() => aceptarVale(vale.id)}
-                  className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 mt-2"
+                  onClick={() => handleAceptarConAnimacion(vale.id)}
+                  className="bg-[#287259] text-white px-4 py-1 rounded hover:bg-[#388E71] cursor-pointer mt-2 text-sm"
                 >
                   Aceptar
                 </button>
-              </div>
-
-              {/* Derecha - imagen */}
-              <div className="w-40 flex items-center justify-center bg-white p-2">
-                <img src={ValeImg} alt="Vale" className="w-full object-contain" />
               </div>
             </div>
           ))}

@@ -2,3 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 @import "tailwindcss";
+.corner {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    background-color: #ffffff; /* O el color de fondo de tu página */
+    border-radius: 50%;
+    z-index: 10;
+  }
+  
+  .top-left {
+    top: -20px;
+    left: -20px;
+  }
+  
+  .top-right {
+    top: -20px;
+    right: -20px;
+  }
+  
+  .bottom-left {
+    bottom: -20px;
+    left: -20px;
+  }
+  
+  .bottom-right {
+    bottom: -20px;
+    right: -20px;
+  }
+  
