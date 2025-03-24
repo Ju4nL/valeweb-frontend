@@ -1,25 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useEffect, useState } from "react";
-import axios from "axios";
 
 const Navbar = () => {
-  const { token, setToken } = useAuth();
+  const { token, role, setToken } = useAuth();
   const navigate = useNavigate();
-  const [role, setRole] = useState("");
-
-  useEffect(() => {
-    const fetchUserRole = async () => {
-      if (token) {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/users`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const me = res.data.find((u: any) => token.includes(u.email)); // solo estimado
-        if (me) setRole(me.role);
-      }
-    };
-    fetchUserRole();
-  }, [token]);
 
   const handleLogout = () => {
     setToken(null);
