@@ -4,6 +4,8 @@ import Dashboard from "./pages/Dashboard";
 import Pendientes from "./pages/Pendientes"; 
 import ProtectedLayout from "./components/ProtectedLayout";
 import Admin from "./pages/Admin";
+import AdminVales from "./pages/AdminVales";
+import AdminUsuarios from "./pages/AdminUsuarios";
 
 function App() {
   return (
@@ -14,6 +16,9 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/pendientes" element={<Pendientes />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/vales" element={<AdminVales />} />
+          <Route path="/admin/usuarios" element={<AdminUsuarios />} />
+
         </Route>
       </Routes>
     </Router>
