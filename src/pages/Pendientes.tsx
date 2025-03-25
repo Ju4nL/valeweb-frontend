@@ -50,14 +50,49 @@ const Pendientes = () => {
   };
 
   useEffect(() => {
-    fetchPendientes(); // Llama una vez al montar
+    let interval: NodeJS.Timeout;
+    let focusTimeout: NodeJS.Timeout;
   
-    const interval = setInterval(() => {
-      fetchPendientes(); // Actualiza cada 10 segundos
-    }, 10000);
+    const startInterval = () => {
+      interval = setInterval(fetchPendientes, 10000);
+    };
   
-    return () => clearInterval(interval); // Limpia el intervalo al desmontar
+    const stopInterval = () => {
+      clearInterval(interval);
+    };
+  
+    const handleBlur = () => {
+      // Si pasa más de 30 segundos sin foco, detenemos el fetch
+      focusTimeout = setTimeout(() => {
+        stopInterval();
+        console.log("Auto-refresh detenido por inactividad");
+      }, 30000); // 30 segundos
+    };
+  
+    const handleFocus = () => {
+      clearTimeout(focusTimeout);
+      stopInterval(); // Reiniciamos por si acaso
+      fetchPendientes(); // Llamamos una vez al volver
+      startInterval();   // Volvemos a activar el refresco
+    };
+  
+    // Primer fetch + activar interval
+    fetchPendientes();
+    startInterval();
+  
+    // Eventos de visibilidad
+    window.addEventListener("blur", handleBlur);
+    window.addEventListener("focus", handleFocus);
+  
+    // Cleanup
+    return () => {
+      stopInterval();
+      clearTimeout(focusTimeout);
+      window.removeEventListener("blur", handleBlur);
+      window.removeEventListener("focus", handleFocus);
+    };
   }, []);
+
   
 
   return (
