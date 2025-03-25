@@ -8,6 +8,7 @@ const Login = () => {
   const { token, setToken } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,6 +19,7 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, {
         email,
@@ -28,6 +30,7 @@ const Login = () => {
       navigate("/dashboard");
     } catch (err) {
       toast.error("Login fallido. Verifica tus credenciales.");
+      setLoading(false); // Restaurar botón si falla
     }
   };
 
@@ -58,9 +61,36 @@ const Login = () => {
 
         <button
           type="submit"
-          className="w-full bg-[#388E71] text-white font-semibold p-3 rounded-lg hover:bg-[#31715C] transition-colors"
+          className="w-full bg-[#388E71] text-white font-semibold p-3 rounded-lg hover:bg-[#31715C] transition-colors flex justify-center items-center gap-2 cursor-pointer disabled:opacity-70"
+          disabled={loading}
         >
-          Entrar
+          {loading ? (
+            <>
+              <svg
+                className="animate-spin h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v8z"
+                />
+              </svg>
+              Iniciando...
+            </>
+          ) : (
+            "Entrar"
+          )}
         </button>
       </form>
     </div>
