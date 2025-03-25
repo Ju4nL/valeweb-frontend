@@ -84,16 +84,18 @@ const Pendientes = () => {
   
               {/* Derecha - imagen y botón */}
               <div
-                className={`sm:w-16 flex flex-col items-center justify-center p-2 relative mt-4 sm:mt-0 sm:ml-4 bg-[#FFEBC1] z-10 transition-all duration-700 ease-in-out transform origin-top-right ${
-                  rompiendo === vale.id ? "rotate-12 scale-0 opacity-0" : "rotate-[5deg]"
-                }`}
+                className={`flex flex-col items-center justify-center p-2 relative ml-4 bg-[#FFEBC1] z-10 transition-all duration-700 ease-in-out transform origin-top-right 
+                  ${
+                    rompiendo === vale.id ? "rotate-12 scale-0 opacity-0" : "rotate-[5deg]"
+                  }
+                  `}
               >
                 <div className="corner top-left"></div>
                 <div className="corner top-right"></div>
                 <div className="corner bottom-left"></div>
                 <div className="corner bottom-right"></div>
   
-                <img src={ValeImg} alt="Vale" className="w-24 object-contain" />
+                <img src={ValeImg} alt="Vale" className="sm:w-32 w-24  object-contain" />
                 <button
                   onClick={() => handleAceptarConAnimacion(vale.id)}
                   className="bg-[#287259] text-white px-4 py-1 rounded hover:bg-[#388E71] cursor-pointer mt-2 text-sm"

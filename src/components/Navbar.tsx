@@ -77,7 +77,7 @@ const Navbar = () => {
           )}
           <button
             onClick={handleLogout}
-            className="text-sm text-gray-500 hover:text-red-500 transition-colors"
+            className="text-sm text-gray-500 hover:text-red-500 transition-colors cursor-pointer"
           >
             Cerrar sesión
           </button>
