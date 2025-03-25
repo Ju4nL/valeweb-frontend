@@ -20,11 +20,11 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-    let focusTimeout: NodeJS.Timeout;
+    let interval: ReturnType<typeof setInterval>;
+    let focusTimeout: ReturnType<typeof setTimeout>;
   
     const startInterval = () => {
-      interval = setInterval(fetchVales, 10000); // Actualiza cada 10s
+      interval = setInterval(fetchVales, 10000); // Cada 10s
     };
   
     const stopInterval = () => {
@@ -32,28 +32,26 @@ const Dashboard = () => {
     };
   
     const handleBlur = () => {
-      // Si se pierde el foco, esperar 30s antes de detener el refresh
       focusTimeout = setTimeout(() => {
         stopInterval();
         console.log("Auto-refresh detenido por inactividad en Dashboard");
-      }, 30000); // 30 segundos
+      }, 30000); // 30s sin foco
     };
   
     const handleFocus = () => {
       clearTimeout(focusTimeout);
-      stopInterval(); // Por si seguía corriendo
-      fetchVales();   // Refresca de inmediato al volver
-      startInterval(); // Vuelve a iniciar el ciclo
+      stopInterval();
+      fetchVales();
+      startInterval();
     };
   
-    // Si no hay token, redirecciona
     if (!token) {
       navigate("/");
       return;
     }
   
-    fetchVales();    // Primer fetch
-    startInterval(); // Iniciar ciclo
+    fetchVales();
+    startInterval();
   
     window.addEventListener("blur", handleBlur);
     window.addEventListener("focus", handleFocus);
@@ -65,6 +63,7 @@ const Dashboard = () => {
       window.removeEventListener("focus", handleFocus);
     };
   }, [token]);
+  
 
   
   const fetchVales = async () => {

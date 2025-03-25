@@ -50,11 +50,11 @@ const Pendientes = () => {
   };
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-    let focusTimeout: NodeJS.Timeout;
+    let interval: ReturnType<typeof setInterval>;
+    let focusTimeout: ReturnType<typeof setTimeout>;
   
     const startInterval = () => {
-      interval = setInterval(fetchPendientes, 10000);
+      interval = setInterval(fetchPendientes, 10000); // Cada 10s
     };
   
     const stopInterval = () => {
@@ -62,29 +62,25 @@ const Pendientes = () => {
     };
   
     const handleBlur = () => {
-      // Si pasa más de 30 segundos sin foco, detenemos el fetch
       focusTimeout = setTimeout(() => {
         stopInterval();
-        console.log("Auto-refresh detenido por inactividad");
-      }, 30000); // 30 segundos
+        console.log("Auto-refresh detenido por inactividad en Pendientes");
+      }, 30000);
     };
   
     const handleFocus = () => {
       clearTimeout(focusTimeout);
-      stopInterval(); // Reiniciamos por si acaso
-      fetchPendientes(); // Llamamos una vez al volver
-      startInterval();   // Volvemos a activar el refresco
+      stopInterval();
+      fetchPendientes();
+      startInterval();
     };
   
-    // Primer fetch + activar interval
     fetchPendientes();
     startInterval();
   
-    // Eventos de visibilidad
     window.addEventListener("blur", handleBlur);
     window.addEventListener("focus", handleFocus);
   
-    // Cleanup
     return () => {
       stopInterval();
       clearTimeout(focusTimeout);
@@ -92,7 +88,7 @@ const Pendientes = () => {
       window.removeEventListener("focus", handleFocus);
     };
   }, []);
-
+  
   
 
   return (
