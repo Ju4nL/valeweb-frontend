@@ -24,10 +24,19 @@ const Dashboard = () => {
       navigate("/");
       return;
     }
-
+  
+    // Llamar inmediatamente
     fetchVales();
+  
+    // Intervalo para actualizar en tiempo real cada 10 segundos
+    const interval = setInterval(() => {
+      fetchVales();
+    }, 10000); // 10000 ms = 10 segundos
+  
+    // Limpiar intervalo cuando el componente se desmonta
+    return () => clearInterval(interval);
   }, [token]);
-
+  
   const fetchVales = async () => {
     try {
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/vales`, {

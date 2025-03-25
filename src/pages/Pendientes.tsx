@@ -50,8 +50,15 @@ const Pendientes = () => {
   };
 
   useEffect(() => {
-    fetchPendientes();
+    fetchPendientes(); // Llama una vez al montar
+  
+    const interval = setInterval(() => {
+      fetchPendientes(); // Actualiza cada 10 segundos
+    }, 10000);
+  
+    return () => clearInterval(interval); // Limpia el intervalo al desmontar
   }, []);
+  
 
   return (
     <div className="p-4 sm:p-6 max-w-5xl mx-auto">
