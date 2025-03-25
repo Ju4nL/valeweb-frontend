@@ -74,7 +74,7 @@ const Dashboard = () => {
           {vales.map((vale) => (
             <div key={vale.canjeo_id} className="flex mx-2 text-xs sm:text-sm">
               {/* Izquierda */}
-              <div className="relative p-3 sm:p-2 flex-1 overflow-hidden bg-[#8BC1AF] ">
+              <div className="relative sm:pl-10 p-3  flex-1 overflow-hidden bg-[#8BC1AF] ">
                 <div className="absolute top-0 right-0 h-full w-[1px]  border-r-2 border-green-900 border-dashed z-0"></div>
 
                 {/* Esquinas recortadas */}
